@@ -1,0 +1,156 @@
+#       Copyright 2025 Kyndryl Corp, All Rights Reserved
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: account
+  namespace: default
+  description: Quarkus template for CJOT applications
+  tags:
+    - java
+    - quarkus
+spec:
+  type: service
+  parameters:
+    - title: Component configuration
+      required:
+        - componentId
+      properties:
+        componentId:
+          title: Component ID
+          type: string
+          description: "The ID or Name of the software component. This will be used as the name of the git repository."
+          default: my-app
+          ui:autofocus: false
+    - title: Project details
+      required:
+        - groupId
+        - artifactId
+        - version
+        - name
+      properties:
+        groupId:
+          title: Group ID
+          type: string
+          description: The group ID of the project for Maven.
+          default: com.kyndryl.cjot
+          ui:autofocus: false
+        artifactId:
+          title: Artifact ID
+          type: string
+          description: The artifact ID of the project for Maven.
+          default: my-app
+          ui:autofocus: false
+        version:
+          title: Version
+          type: string
+          description: The version of the project
+          default: 1.0-SNAPSHOT
+          ui:autofocus: false
+        name:
+          title: Name
+          type: string
+          description: The name of the project in CamelCase.
+          ui:autofocus: false
+        description:
+          title: Description
+          type: string
+          description: The description of the project
+          ui:autofocus: false
+        package:
+          title: Package
+          type: string
+          description: The base package of the project for Java.
+          default: com.kyndryl.cjot
+          ui:autofocus: false
+    - title: Git repository configuration
+      required:
+        - repoHost
+        - repoOrg
+        - repoName
+        - repoBranch
+        - repoVisibility
+      properties:
+        repoHost:
+          title: Host
+          type: string
+          description: The host of the git repository
+          default: github.com
+          ui:autofocus: false
+        repoOrg:
+          title: Organization
+          type: string
+          description: The organization of the git repository
+          default: IBMStockTrader
+          ui:autofocus: false
+        repoName:
+          title: Name
+          type: string
+          description: The name of the git repository
+          default: my-app
+          ui:autofocus: false
+        repoBranch:
+          title: Branch
+          type: string
+          description: The branch of the git repository
+          default: main
+          ui:autofocus: false
+        repoVisibility:
+          title: Visibility
+          type: string
+          description: The visibility of the git repository
+          default: public
+          ui:autofocus: false
+  steps:
+    - id: render
+      name: Fetch Application Files
+      action: fetch:template
+      input:
+        values:
+          repoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}.git"
+          repoHost: "${{ parameters.repoHost }}"
+          componentId: "${{ parameters.componentId }}"
+          componentEscaped: "${{ parameters.componentId | lower | replace('-', '') }}"
+          package: "${{ parameters.package }}"
+          repoName: "${{ parameters.repoName }}"
+          groupId: "${{ parameters.groupId }}"
+          name: "${{ parameters.name }}"
+          artifactId: "${{ parameters.artifactId }}"
+          repoBranch: "${{ parameters.repoBranch }}"
+          version: "${{ parameters.version }}"
+          repoOrg: "${{ parameters.repoOrg }}"
+          packagePath: "${{ parameters.package | replace('.', '/') }}"
+        replace: true
+        url: skeleton/
+    - id: publish
+      name: Publish to Github
+      action: publish:github
+      input:
+        allowedHosts: "['github.com']"
+        repoUrl: "${{ parameters.repoHost }}?owner=${{ parameters.repoOrg }}&repo=${{ parameters.repoName }}"
+        protectDefaultBranch: false
+        defaultBranch: main
+        description: "This is ${{ parameters.description }}"
+        repoVisibility: "${{ parameters.repo.visibility }}"
+    - id: register
+      name: Register Component
+      action: catalog:register
+      input:
+        catalogInfoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}/blob/${{ parameters.repoBranch }}/catalog-info.yaml"
+  output:
+    links:
+      - title: Open the catalog info
+        entityRef: "${{ steps.register.output.entityRef }}"
+      - title: Open the repository
+        url: "https://${{ values.repoHost }}/${{ values.repoOrg }}/${{ values.repoName }}"
