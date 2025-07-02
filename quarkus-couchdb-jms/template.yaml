@@ -14,9 +14,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: account
+  name: Quarkus REST, JMS, CouchDB Backend
   namespace: default
-  description: Quarkus template for CJOT applications
+  description: Quarkus application template for CJOT applications. Creates a GH repo in IBMStockTrader and a GH Action Pipeline.
   tags:
     - java
     - quarkus
