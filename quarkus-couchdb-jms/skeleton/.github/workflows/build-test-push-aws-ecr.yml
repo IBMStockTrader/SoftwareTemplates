@@ -4,7 +4,7 @@
 # To use this workflow, you will need to complete the following set-up steps:
 #
 # 1. Create an ECR repository to store your images.
-#    For example: `aws ecr create-repository --repository-name ibmstocktrader/trader --region us-east-2`.
+#    For example: `aws ecr create-repository --repository-name ibmstocktrader/${{ values.componentId }} --region us-east-2`.
 #    Replace the value of `ECR_REPOSITORY` in the workflow below with your repository's name.
 #    Replace the value of `aws-region` in the workflow below with your repository's region.
 #
@@ -142,10 +142,10 @@ jobs:
           echo "${VERSION}"
           echo "print yq version"
           yq --version
-          # yq w -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml" spec.trader.image.repository "${APP_IMAGE}"
-          yq e ".spec.trader.image.repository = \"$APP_IMAGE\"" -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml"
-          # yq w -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml" spec.trader.image.tag "${VERSION}"
-          yq e ".spec.trader.image.tag = \"$VERSION\"" -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml"
+          # yq w -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml" spec.${{ values.componentId }}.image.repository "${APP_IMAGE}"
+          yq e ".spec.${{ values.componentId }}.image.repository = \"$APP_IMAGE\"" -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml"
+          # yq w -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml" spec.${{ values.componentId }}.image.tag "${VERSION}"
+          yq e ".spec.${{ values.componentId }}.image.tag = \"$VERSION\"" -i "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml"
           cat "${GITOPS_DIR}/stocktrader-aws-eks-cr.yml"          
           if [[ $(git status -s | wc -l) -eq 0 ]]; then
             echo "No changes"
