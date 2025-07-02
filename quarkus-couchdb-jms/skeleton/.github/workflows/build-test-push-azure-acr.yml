@@ -56,8 +56,8 @@ env:
   ACR_NAME: kyncjot
   GITOPS_REPO: IBMStockTrader/stocktrader-gitops
   GITOPS_DIR: application
-  IMAGE_NAME: trader
-  APP_NAME: trader
+  IMAGE_NAME: ${{ values.componentId }}
+  APP_NAME: ${{ values.componentId }}
   IMAGE_TAG: ${{ github.sha }}
   GITOPS_USERNAME: ${{ secrets.GITOPS_USERNAME }}
 
@@ -146,7 +146,7 @@ jobs:
 
       # ---------------------------------------------------------------------------------
       # Step 2: Update the application manifest (YAML) with the new image repository and tag.
-      # - Uses yq to update the .spec.trader.image.repository and .spec.trader.image.tag fields.
+      # - Uses yq to update the .spec.${{ values.componentId }}.image.repository and .spec.${{ values.componentId }}.image.tag fields.
       # - Only commits and pushes if there are actual changes.
       # - The commit message includes the app name and new version (SHA).
       # ---------------------------------------------------------------------------------
@@ -163,8 +163,8 @@ jobs:
           APP_IMAGE="$ACR_LOGIN_SERVER/${IMAGE_NAME}"
           VERSION="${{ github.sha }}"
           APP_NAME="${{ env.APP_NAME }}"
-          yq e ".spec.trader.image.repository = \"$APP_IMAGE\"" -i "${GITOPS_DIR}/stocktrader-azure-aks-cr.yml"
-          yq e ".spec.trader.image.tag = \"$VERSION\"" -i "${GITOPS_DIR}/stocktrader-azure-aks-cr.yml"
+          yq e ".spec.${{ values.componentId }}.image.repository = \"$APP_IMAGE\"" -i "${GITOPS_DIR}/stocktrader-azure-aks-cr.yml"
+          yq e ".spec.${{ values.componentId }}.image.tag = \"$VERSION\"" -i "${GITOPS_DIR}/stocktrader-azure-aks-cr.yml"
           cat "${GITOPS_DIR}/stocktrader-azure-aks-cr.yml"
           if [[ $(git status -s | wc -l) -eq 0 ]]; then
             echo "No changes"
