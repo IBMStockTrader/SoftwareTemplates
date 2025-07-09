@@ -44,7 +44,7 @@ metadata:
     app.quarkus.io/version: 3.18.3
   annotations:
     backstage.io/source-location: "url:https://${{ values.repoHost }}/${{ values.repoOrg }}/${{ values.repoName }}"
-    github.com/project-slug: ${{ values.repoOrg }}/${{ values.repoName }}
+    github.com/project-slug: "${{ values.repoOrg }}/${{ values.repoName }}"
   tags:
   - java
   - quarkus
