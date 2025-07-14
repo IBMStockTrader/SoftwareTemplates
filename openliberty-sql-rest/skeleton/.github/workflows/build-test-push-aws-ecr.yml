@@ -36,7 +36,7 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  # EDIT secrets with with your registry path, and apikey
+  # EDIT secrets with your registry path, and apikey
   # REGISTRY_NAMESPACE:  ${{ secrets.REGISTRY_NAMESPACE }}
   # EDIT with your registry username.
   # IMAGE_NAME: portfolio

@@ -1,0 +1,47 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: stocktrader
+  description: Stock Trader
+spec:
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: guests
+  definition:
+    $text: src/main/generated/openapi/openapi.yaml
+metadata:
+  name: ${{ values.componentId }}-api
+  tags:
+    - java
+    - openliberty
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  # the type must be a service for the CI/CD tab to render unless you change the
+  # EntityPage.tsx to use a ComponentType of `application`
+  type: service
+  lifecycle: production
+  system: stocktrader
+  owner: guests
+  providesApis:
+    - portfolio-api
+  dependsOn:
+    - component:default/stock-quote
+metadata:
+  name: "${{ values.componentId }}"
+  labels:
+    app.kubernetes.io/name: "${{ values.componentId }}"
+    app.kubernetes.io/version: "${{ values.version }}"
+    app.openliberty.io/version: 2025.0.0.3
+  annotations:
+    backstage.io/source-location: "url:https://${{ values.repoHost }}/${{ values.repoOrg }}/${{ values.repoName }}"
+    github.com/project-slug: "${{ values.repoOrg }}/${{ values.repoName }}"
+  tags:
+    - java
+    - openliberty
