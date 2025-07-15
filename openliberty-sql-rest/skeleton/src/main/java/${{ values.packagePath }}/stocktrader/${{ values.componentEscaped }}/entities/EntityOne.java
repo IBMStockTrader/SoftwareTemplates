@@ -16,10 +16,6 @@
 
 package ${{ values.package }}.stocktrader.${{ values.componentEscaped }}.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -33,8 +29,8 @@ import jakarta.json.bind.annotation.JsonbTransient;
 
 import lombok.*;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObjectBuilder;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 //TODO Add additional fields or methods as needed
 //TODO Rename this to what you're actually using

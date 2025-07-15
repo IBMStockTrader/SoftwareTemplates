@@ -37,5 +37,5 @@ public interface CustomRestClient {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public CustomClientJson getCustomClient(CustomClientJson input);
+    public CustomClientJson getCustomClient(String input);
 }

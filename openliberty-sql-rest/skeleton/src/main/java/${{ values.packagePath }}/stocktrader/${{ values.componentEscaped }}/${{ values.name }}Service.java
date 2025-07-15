@@ -44,13 +44,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 @ApplicationPath("/")
 @Path("/")
@@ -363,13 +362,8 @@ public class ${{ values.name }}Service extends Application {
 				//getPortfolio will fill in the price, date and total
 			}
 
-			//getPortfolio will fill in the overall total and loyalty, and commit or rollback the transaction
-			logger.fine("Refreshing portfolio for "+owner);
-			portfolio = getPortfolio(owner, false, request);
-
 			if (publishToTradeHistoryTopic) utilities.invokeKafka(portfolio, kafkaAddress, kafkaTopic);
 
-			if (deleteStock) entityTwoDao.deleteEntityTwo(entityTwo); //delay deleting until after invoking Kafka, which needs the quote info that would be gone after the delete
 			consecutiveErrors = 0;
 		} catch (Throwable t) {
 			consecutiveErrors++;

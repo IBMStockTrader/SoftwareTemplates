@@ -1,5 +1,5 @@
 <server>
-    <dataSource id="PortfolioDB" jndiName="jdbc/Portfolio/PortfolioDB" connectionManagerRef="dbConnections" isolationLevel="TRANSACTION_REPEATABLE_READ">
+    <dataSource id="${{ values.name }}DB" jndiName="jdbc/${{ values.name }}/${{ values.name }}DB" connectionManagerRef="dbConnections" isolationLevel="TRANSACTION_REPEATABLE_READ">
         <jdbcDriver>
             <library name="Derby" description="Apache Derby JDBC driver jar">
                 <file id="derby" name="/config/prereqs/derby-10.17.1.0.jar"/>

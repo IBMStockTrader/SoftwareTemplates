@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 public class ${{ values.name }}Utilities {
 	private static final Logger logger = Logger.getLogger(${{ values.name }}Utilities.class.getName());
 
+	// TODO Replace this with MP Emitter
 	private static EventStreamsProducer kafkaProducer = null;
 
 	/** Send a message to IBM Event Streams via the Kafka APIs */

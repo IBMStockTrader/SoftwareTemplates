@@ -16,7 +16,7 @@
 
 <server description="${{ values.name }} server">
     <featureManager>
-        <platform>jakartaee-11.0</platform>
+        <platform>jakartaee-10.0</platform>
         <platform>microProfile-7.0</platform>
         <!-- Since we defined the platform versions above, we don't need to specify the versions for underlying features -->
         <!-- https://openliberty.io/docs/latest/reference/platform/JakartaEE.html -->

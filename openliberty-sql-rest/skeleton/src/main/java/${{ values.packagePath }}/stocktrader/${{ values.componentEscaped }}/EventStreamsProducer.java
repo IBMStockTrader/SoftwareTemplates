@@ -16,9 +16,6 @@
 
 package ${{ values.package }}.stocktrader.${{ values.componentEscaped }};
 
-
-import .entities.EntityOne;
-
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;

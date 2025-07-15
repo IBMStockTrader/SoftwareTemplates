@@ -1,2 +1,2 @@
 # TODO update this with client values
--Dcom.ibm.hybrid.cloud.sample.stocktrader.portfolio.client.StockQuoteClient/mp-rest/url=http://stock-quote-service:9080/stock-quote
+-D${{ values.package }}.stocktrader.${{ values.componentEscaped }}.client.CustomRestClient/mp-rest/url=http://stock-quote-service:9080/stock-quote
