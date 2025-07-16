@@ -40,7 +40,7 @@ spec:
         artifactId:
           title: Artifact ID
           type: string
-          description: The artifact ID of the project for Maven. This will be the name of the Git repository.
+          description: The artifact ID of the project for Maven. This will also be the name of the Git repository.
           default: my-app
           ui:autofocus: false
         version:
@@ -63,7 +63,6 @@ spec:
       required:
         - repoHost
         - repoOrg
-        - repoName
         - repoBranch
         - repoVisibility
       properties:
