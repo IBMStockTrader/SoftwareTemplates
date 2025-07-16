@@ -15,7 +15,7 @@
    limitations under the License.
 -->
 
-This service manages user *${{ values.componentId }}s*.  The data is backed by a CouchDB-complient document database (Cloudant, CouchDB).  The following operations are available:
+This service manages user *${{ values.componentId }}s*. The data is backed by a CouchDB-complient document database (Cloudant, CouchDB).  The following operations are available:
 
 `GET /` - gets all ${{ values.name }}s.
 
