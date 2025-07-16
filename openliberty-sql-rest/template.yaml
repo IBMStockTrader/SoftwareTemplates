@@ -102,7 +102,7 @@ spec:
           repoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}.git"
           repoHost: "${{ parameters.repoHost }}"
           componentId: "${{ parameters.artifactId }}"
-          componentEscaped: "${{ parameters.componentId | lower | replace('-', '') }}"
+          componentEscaped: "${{ values.componentId | lower | replace('-', '') }}"
           package: "${{ parameters.groupId }}"
           repoName: "${{ parameters.artifactId }}"
           groupId: "${{ parameters.groupId }}"
