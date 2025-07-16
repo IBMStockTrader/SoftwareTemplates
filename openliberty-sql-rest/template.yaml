@@ -24,16 +24,6 @@ metadata:
 spec:
   type: service
   parameters:
-    - title: Component configuration
-      required:
-        - componentId
-      properties:
-        componentId:
-          title: Component ID
-          type: string
-          description: "The ID or Name of the software component. This will be used as the name of the git repository."
-          default: my-app
-          ui:autofocus: false
     - title: Project details
       required:
         - groupId
@@ -50,7 +40,7 @@ spec:
         artifactId:
           title: Artifact ID
           type: string
-          description: The artifact ID of the project for Maven.
+          description: The artifact ID of the project for Maven. This will be the name of the Git repository.
           default: my-app
           ui:autofocus: false
         version:
@@ -62,18 +52,12 @@ spec:
         name:
           title: Name
           type: string
-          description: The name of the project in CamelCase.
+          description: The CamelCase name of the project. Used for generated classes.
           ui:autofocus: false
         description:
           title: Description
           type: string
           description: The description of the project
-          ui:autofocus: false
-        package:
-          title: Package
-          type: string
-          description: The base package of the project for Java.
-          default: com.kyndryl.cjot
           ui:autofocus: false
     - title: Git repository configuration
       required:
@@ -95,12 +79,6 @@ spec:
           description: The organization of the git repository
           default: IBMStockTrader
           ui:autofocus: false
-        repoName:
-          title: Name
-          type: string
-          description: The name of the git repository
-          default: my-app
-          ui:autofocus: false
         repoBranch:
           title: Branch
           type: string
@@ -112,6 +90,9 @@ spec:
           type: string
           description: The visibility of the git repository
           default: public
+          enum:
+            - public
+            - private
           ui:autofocus: false
   steps:
     - id: render
@@ -121,17 +102,17 @@ spec:
         values:
           repoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}.git"
           repoHost: "${{ parameters.repoHost }}"
-          componentId: "${{ parameters.componentId }}"
+          componentId: "${{ parameters.artifactId }}"
           componentEscaped: "${{ parameters.componentId | lower | replace('-', '') }}"
-          package: "${{ parameters.package }}"
-          repoName: "${{ parameters.repoName }}"
+          package: "${{ parameters.groupId }}"
+          repoName: "${{ parameters.artifactId }}"
           groupId: "${{ parameters.groupId }}"
           name: "${{ parameters.name }}"
           artifactId: "${{ parameters.artifactId }}"
           repoBranch: "${{ parameters.repoBranch }}"
           version: "${{ parameters.version }}"
           repoOrg: "${{ parameters.repoOrg }}"
-          packagePath: "${{ parameters.package | replace('.', '/') }}"
+          packagePath: "${{ parameters.groupId | replace('.', '/') }}"
         replace: true
         url: skeleton/
     - id: publish
