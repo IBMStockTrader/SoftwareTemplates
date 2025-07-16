@@ -123,7 +123,7 @@ spec:
         protectDefaultBranch: false
         defaultBranch: main
         description: "This is ${{ parameters.description }}"
-        repoVisibility: "${{ parameters.repo.visibility }}"
+        repoVisibility: "${{ parameters.repoVisibility }}"
     - id: register
       name: Register Component
       action: catalog:register
