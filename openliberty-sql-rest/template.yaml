@@ -119,7 +119,7 @@ spec:
       action: publish:github
       input:
         allowedHosts: "['github.com']"
-        repoUrl: "${{ parameters.repoHost }}?owner=${{ parameters.repoOrg }}&repo=${{ parameters.repoName }}"
+        repoUrl: "${{ parameters.repoHost }}?owner=${{ parameters.repoOrg }}&repo=${{ values.repoName }}"
         protectDefaultBranch: false
         defaultBranch: main
         description: "This is ${{ parameters.description }}"
@@ -128,7 +128,7 @@ spec:
       name: Register Component
       action: catalog:register
       input:
-        catalogInfoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}/blob/${{ parameters.repoBranch }}/catalog-info.yaml"
+        catalogInfoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ values.repoName }}/blob/${{ parameters.repoBranch }}/catalog-info.yaml"
   output:
     links:
       - title: Open the catalog info
