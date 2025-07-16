@@ -102,7 +102,7 @@ spec:
           repoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.repoName }}.git"
           repoHost: "${{ parameters.repoHost }}"
           componentId: "${{ parameters.artifactId }}"
-          componentEscaped: "${{ values.componentId | lower | replace('-', '') }}"
+          componentEscaped: "${{ parameters.artifactId | lower | replace('-', '') }}"
           package: "${{ parameters.groupId }}"
           repoName: "${{ parameters.artifactId }}"
           groupId: "${{ parameters.groupId }}"
@@ -119,7 +119,7 @@ spec:
       action: publish:github
       input:
         allowedHosts: "['github.com']"
-        repoUrl: "${{ parameters.repoHost }}?owner=${{ parameters.repoOrg }}&repo=${{ values.repoName }}"
+        repoUrl: "${{ parameters.repoHost }}?owner=${{ parameters.repoOrg }}&repo=${{ parameters.artifactId }}"
         protectDefaultBranch: false
         defaultBranch: main
         description: "This is ${{ parameters.description }}"
@@ -128,10 +128,10 @@ spec:
       name: Register Component
       action: catalog:register
       input:
-        catalogInfoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ values.repoName }}/blob/${{ parameters.repoBranch }}/catalog-info.yaml"
+        catalogInfoUrl: "https://${{ parameters.repoHost }}/${{ parameters.repoOrg }}/${{ parameters.artifactId }}/blob/${{ parameters.repoBranch }}/catalog-info.yaml"
   output:
     links:
       - title: Open the catalog info
         entityRef: "${{ steps.register.output.entityRef }}"
       - title: Open the repository
-        url: "https://${{ values.repoHost }}/${{ values.repoOrg }}/${{ values.repoName }}"
+        url: "https://${{ values.repoHost }}/${{ values.repoOrg }}/${{ parameters.artifactId }}"
